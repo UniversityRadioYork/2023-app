@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, View, Text, Image } from 'react-native';
+import {View} from 'react-native';
 
 import FastImage from 'react-native-fast-image'
 
@@ -7,7 +7,6 @@ export default class CurrentWebcam extends React.Component {
     constructor() {
       super();
       this.state = {
-        //imgsource: 'https://ury.org.uk/webcam/view/office?'+Date.now()
         currentimg: 'https://ury.org.uk/webcam/view/studio2?'+Date.now(),
         nextimg: 'https://ury.org.uk/webcam/view/studio2?'+Date.now()
       };
@@ -36,7 +35,7 @@ export default class CurrentWebcam extends React.Component {
     render() {
       return (
         <View>
-            <FastImage
+          <FastImage
             style={{ width: 200, height: 200, position: "absolute" }}
             source={{
                 uri:  this.state.currentimg ,
@@ -44,7 +43,7 @@ export default class CurrentWebcam extends React.Component {
                 priority: FastImage.priority.normal,
             }}
             resizeMode={FastImage.resizeMode.contain} />
-            <FastImage
+          <FastImage
             style={{ width: 200, height: 200, position: "absolute" }}
             source={{
                 uri:  this.state.nextimg ,
