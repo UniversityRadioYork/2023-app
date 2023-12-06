@@ -6,10 +6,10 @@
  */
 
 import * as React from 'react';
-import { Button, View } from 'react-native';
+import {Button, View} from 'react-native';
 
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {NavigationContainer} from '@react-navigation/native';
 
 import HomeScreen from './app/screens/home/Home';
 import ScheduleScreen from './app/screens/schedule/Schedule';
@@ -18,13 +18,13 @@ import TabBar from './app/globals/components/TabBar';
 const Drawer = createDrawerNavigator();
 
 export default function App() {
-  return (
-    <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home" style={{flex:1}}>
-        <Drawer.Screen name="Home" component={HomeScreen} />
-        <Drawer.Screen name="Schedule" component={ScheduleScreen} />
-      </Drawer.Navigator>
-      <TabBar/>
-    </NavigationContainer>
-  );
+	return (
+		<NavigationContainer>
+			<Drawer.Navigator initialRouteName="Home" style={{flex: 1}}>
+				<Drawer.Screen name="Home" component={HomeScreen} />
+				<Drawer.Screen name="Schedule" component={ScheduleScreen} />
+			</Drawer.Navigator>
+			<TabBar />
+		</NavigationContainer>
+	);
 }

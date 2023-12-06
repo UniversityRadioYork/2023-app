@@ -1,45 +1,44 @@
 import * as React from 'react';
-import { Button, View } from 'react-native';
+import {Pressable, Image, View} from 'react-native';
 
 import SoundPlayer from 'react-native-sound-player';
 
+const playImage = require('../../assets/mediacontrol/play.png');
+const stopImage = require('../../assets/mediacontrol/stop.png');
+
 export default class AudioPlayer extends React.Component {
-    constructor() {
-      super();
-      this.state = {
-        buttontext: 'play'
-      };
-      this.toggleSound = this.toggleSound.bind(this);
-      this.playing = false;
-    }
-  
-    componentDidMount() {
-      }
+	constructor() {
+		super();
+		this.state = {
+			buttonImage: playImage,
+		};
+		this.toggleSound = this.toggleSound.bind(this);
+		this.playing = false;
+	}
 
-    componentWillUnmount() {
-     }
+	componentDidMount() {}
 
-    toggleSound() {
-      if(this.playing){
-        SoundPlayer.stop();
-        this.setState({buttontext: 'Play'});
-        this.playing = false;
-      } else {
-        SoundPlayer.playUrl('http://audio.ury.org.uk/live-mobile');
-        this.setState({buttontext: 'Stop'});
-        this.playing = true;
-      }
-    }
+	componentWillUnmount() {}
 
-    render() {
-      return (
-        <View>
-            <Button
-          title={this.state.buttontext}
-          onPress={() => this.toggleSound()}
-        />
-        </View>
-      );
-    }
-  }
-  
+	toggleSound() {
+		if (this.playing) {
+			SoundPlayer.stop();
+			this.setState({buttonImage: playImage});
+			this.playing = false;
+		} else {
+			SoundPlayer.playUrl('http://audio.ury.org.uk/live-mobile');
+			this.setState({buttonImage: stopImage});
+			this.playing = true;
+		}
+	}
+
+	render() {
+		return (
+			<View>
+				<Pressable onPress={() => this.toggleSound()}>
+					<Image source={this.state.buttonImage} />
+				</Pressable>
+			</View>
+		);
+	}
+}
