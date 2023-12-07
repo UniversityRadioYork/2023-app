@@ -3,5 +3,5 @@
 */
 
 export const keys = {
-	MyRadioKey: 'yourKeyGoesHere',
+	MyRadioKey: 'yourKeyGoesHereTest',
 };
