@@ -1,7 +1,10 @@
 import * as React from 'react';
-import {Pressable, Image, View} from 'react-native';
+import {Pressable, Image, View, StyleSheet} from 'react-native';
 
 import SoundPlayer from 'react-native-sound-player';
+
+import {sizes} from '../constants/style';
+import {audio} from '../constants/resources';
 
 const playImage = require('../../assets/mediacontrol/play.png');
 const stopImage = require('../../assets/mediacontrol/stop.png');
@@ -13,7 +16,7 @@ export default class AudioPlayer extends React.Component {
 			buttonImage: playImage,
 		};
 		this.toggleSound = this.toggleSound.bind(this);
-		this.playing = false;
+		this.currentlyPlaying = false;
 	}
 
 	componentDidMount() {}
@@ -21,14 +24,14 @@ export default class AudioPlayer extends React.Component {
 	componentWillUnmount() {}
 
 	toggleSound() {
-		if (this.playing) {
+		if (this.currentlyPlaying) {
 			SoundPlayer.stop();
 			this.setState({buttonImage: playImage});
-			this.playing = false;
+			this.currentlyPlaying = false;
 		} else {
-			SoundPlayer.playUrl('http://audio.ury.org.uk/live-mobile');
+			SoundPlayer.playUrl(audio.playback);
 			this.setState({buttonImage: stopImage});
-			this.playing = true;
+			this.currentlyPlaying = true;
 		}
 	}
 
@@ -36,9 +39,16 @@ export default class AudioPlayer extends React.Component {
 		return (
 			<View>
 				<Pressable onPress={() => this.toggleSound()}>
-					<Image source={this.state.buttonImage} />
+					<Image source={this.state.buttonImage} style={styles.audioPlayer} />
 				</Pressable>
 			</View>
 		);
 	}
 }
+
+let styles = StyleSheet.create({
+	audioPlayer: {
+		height: sizes.tabBarIcon,
+		width: sizes.tabBarIcon,
+	},
+});

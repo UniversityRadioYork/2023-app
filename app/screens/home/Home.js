@@ -1,12 +1,14 @@
 import * as React from 'react';
-import {Button, View, Text, Image} from 'react-native';
+import {Button, View, Text, StyleSheet} from 'react-native';
 
-import FastImage from 'react-native-fast-image';
+import {sizes, colours} from '../../globals/constants/style';
 
 export default function HomeScreen({navigation}) {
 	return (
 		<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-			<Text>Home Screen</Text>
+			<Text style={styles.text}>
+				Welcome to the ury app, an app where you can really just fuck about
+			</Text>
 			<Button
 				title="Go to Schedule"
 				onPress={() => navigation.navigate('Schedule')}
@@ -14,3 +16,12 @@ export default function HomeScreen({navigation}) {
 		</View>
 	);
 }
+
+let styles = StyleSheet.create({
+	text: {
+		color: colours.black,
+		textAlign: 'center',
+		fontSize: sizes.p,
+		fontWeight: 'bold',
+	},
+});

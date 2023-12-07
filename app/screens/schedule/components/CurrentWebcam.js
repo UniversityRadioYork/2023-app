@@ -3,12 +3,14 @@ import {View} from 'react-native';
 
 import FastImage from 'react-native-fast-image';
 
+import {images} from '../../../globals/constants/resources';
+
 export default class CurrentWebcam extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			currentimg: 'https://ury.org.uk/webcam/view/studio2?' + Date.now(),
-			nextimg: 'https://ury.org.uk/webcam/view/studio2?' + Date.now(),
+			currentimg: images.liveWebcam + Date.now(),
+			nextimg: images.liveWebcam + Date.now(),
 		};
 		this.updateCurrent = true;
 		this.updateImage = this.updateImage.bind(this);
@@ -26,11 +28,11 @@ export default class CurrentWebcam extends React.Component {
 	updateImage() {
 		if (this.updateCurrent) {
 			this.setState({
-				currentimg: 'https://ury.org.uk/webcam/view/studio2?' + Date.now(),
+				currentimg: images.liveWebcam + Date.now(),
 			});
 		} else {
 			this.setState({
-				nextimg: 'https://ury.org.uk/webcam/view/studio2?' + Date.now(),
+				nextimg: images.liveWebcam + Date.now(),
 			});
 		}
 		this.updateCurrent = !this.updateCurrent;
