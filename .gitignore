@@ -66,4 +66,4 @@ yarn-error.log
 /coverage
 
 #secret key shenaningans
-api-keys.js
+/api-keys.js
