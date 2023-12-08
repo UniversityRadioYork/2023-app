@@ -4,7 +4,7 @@ import {Pressable, Image, View, StyleSheet} from 'react-native';
 import SoundPlayer from 'react-native-sound-player';
 
 import {sizes} from '../../constants/style';
-import audio from '../../constants/resources';
+import {audio} from '../../constants/resources';
 
 const playImage = require('../../../assets/mediacontrol/play.png');
 const stopImage = require('../../../assets/mediacontrol/stop.png');

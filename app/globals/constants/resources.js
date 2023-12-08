@@ -11,3 +11,7 @@ export const audio = {
 export const images = {
 	liveWebcam: 'https://ury.org.uk/webcam/view/live?',
 };
+
+export const names = {
+	offAirShow: 'Jukebox',
+};

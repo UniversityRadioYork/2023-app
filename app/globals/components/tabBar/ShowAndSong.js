@@ -3,12 +3,13 @@ import {View, Text, StyleSheet} from 'react-native';
 
 import myRadioGetRequest from '../../../requests/myRadioRequest';
 import {sizes, colours} from '../../constants/style';
+import {names} from '../../constants/resources';
 
 export default class ShowAndSong extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			currentShow: '',
+			currentShow: names.offAirShow,
 			currentSong: '',
 		};
 		this.updateText = this.updateText.bind(this);
@@ -26,9 +27,15 @@ export default class ShowAndSong extends React.Component {
 	updateText() {
 		myRadioGetRequest('timeslot/currenttimeslot')
 			.then(response => {
-				this.setState({
-					currentShow: response['payload']['title'],
-				});
+				if (response['payload']) {
+					this.setState({
+						currentShow: response['payload']['title'],
+					});
+				} else {
+					this.setState({
+						currentShow: names.offAirShow,
+					});
+				}
 			})
 			.catch(error => {});
 		myRadioGetRequest('track/nowplaying')
