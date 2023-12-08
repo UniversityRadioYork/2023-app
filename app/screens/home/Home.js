@@ -21,7 +21,7 @@ let styles = StyleSheet.create({
 	text: {
 		color: colours.black,
 		textAlign: 'center',
-		fontSize: sizes.p,
+		fontSize: sizes.text,
 		fontWeight: 'bold',
 	},
 });

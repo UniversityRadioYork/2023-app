@@ -13,7 +13,7 @@ import {NavigationContainer} from '@react-navigation/native';
 
 import HomeScreen from './app/screens/home/Home';
 import ScheduleScreen from './app/screens/schedule/Schedule';
-import TabBar from './app/globals/components/TabBar';
+import TabBar from './app/globals/components/tabBar/TabBar';
 
 const Drawer = createDrawerNavigator();
 
