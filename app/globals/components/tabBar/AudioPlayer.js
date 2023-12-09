@@ -1,13 +1,43 @@
 import * as React from 'react';
 import {Pressable, Image, View, StyleSheet} from 'react-native';
 
-import SoundPlayer from 'react-native-sound-player';
+import TrackPlayer, {
+	AppKilledPlaybackBehavior,
+	Capability,
+	RepeatMode,
+	Event,
+} from 'react-native-track-player';
 
 import {sizes} from '../../constants/style';
 import {audio} from '../../constants/resources';
 
 const playImage = require('../../../assets/mediacontrol/play.png');
 const stopImage = require('../../../assets/mediacontrol/stop.png');
+
+const audioplay = {
+	title: 'URY',
+	artist: 'university radio york',
+	url: audio.playback,
+};
+
+async function setupTrackPlayer() {
+	await TrackPlayer.setupPlayer();
+
+	TrackPlayer.updateOptions({
+		android: {
+			appKilledPlaybackBehavior: AppKilledPlaybackBehavior.ContinuePlayback,
+		},
+	});
+}
+
+async function playLive() {
+	await TrackPlayer.setQueue([audioplay]);
+	await TrackPlayer.play();
+}
+
+async function stopPlayback() {
+	await TrackPlayer.stop();
+}
 
 export default class AudioPlayer extends React.Component {
 	constructor() {
@@ -19,17 +49,19 @@ export default class AudioPlayer extends React.Component {
 		this.currentlyPlaying = false;
 	}
 
-	componentDidMount() {}
+	componentDidMount() {
+		setupTrackPlayer();
+	}
 
 	componentWillUnmount() {}
 
 	toggleSound() {
 		if (this.currentlyPlaying) {
-			SoundPlayer.stop();
+			stopPlayback();
 			this.setState({buttonImage: playImage});
 			this.currentlyPlaying = false;
 		} else {
-			SoundPlayer.playUrl(audio.playback);
+			playLive();
 			this.setState({buttonImage: stopImage});
 			this.currentlyPlaying = true;
 		}
