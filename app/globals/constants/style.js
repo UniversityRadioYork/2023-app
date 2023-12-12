@@ -19,4 +19,5 @@ export const sizes = {
 
 	//images
 	tabBarIcon: height / 10,
+	tabBarText: width - (2 * (height / 10) + 20),
 };

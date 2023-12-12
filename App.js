@@ -14,10 +14,15 @@ import {NavigationContainer} from '@react-navigation/native';
 import HomeScreen from './app/screens/home/Home';
 import ScheduleScreen from './app/screens/schedule/Schedule';
 import TabBar from './app/globals/components/tabBar/TabBar';
+import {
+	setupPlayer,
+	NotificationListener,
+} from './app/globals/audioPlayer/audioPlayer';
 
 const Drawer = createDrawerNavigator();
 
 export default function App() {
+	setupPlayer();
 	return (
 		<NavigationContainer>
 			<Drawer.Navigator
@@ -34,6 +39,7 @@ export default function App() {
 				<Drawer.Screen name="Schedule" component={ScheduleScreen} />
 			</Drawer.Navigator>
 			<TabBar />
+			<NotificationListener />
 		</NavigationContainer>
 	);
 }

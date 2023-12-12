@@ -58,7 +58,7 @@ export default class ShowAndSong extends React.Component {
 
 	render() {
 		return (
-			<View>
+			<View style={styles.sizeLimit}>
 				<Text style={styles.currentShow} numberOfLines={1} ellipsizeMode="tail">
 					{this.state.currentShow}
 				</Text>
@@ -81,5 +81,8 @@ let styles = StyleSheet.create({
 		fontSize: sizes.smalltext,
 		color: colours.white,
 		textAlign: 'left',
+	},
+	sizeLimit: {
+		width: sizes.tabBarText,
 	},
 });

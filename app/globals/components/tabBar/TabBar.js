@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 
-import AudioPlayer from './AudioPlayer';
+import AudioPlayerButton from './AudioPlayerButton';
 import ShowAndSong from './ShowAndSong';
 import CurrentShowArt from './CurrentShowArt';
 
@@ -19,7 +19,7 @@ export default class TabBar extends React.Component {
 						<ShowAndSong />
 					</View>
 				</View>
-				<AudioPlayer />
+				<AudioPlayerButton />
 			</View>
 		);
 	}
