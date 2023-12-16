@@ -1,9 +1,10 @@
 import * as React from 'react';
-import {View} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 
 import FastImage from 'react-native-fast-image';
 
 import {images} from '../../../globals/constants/resources';
+import {sizes} from '../../../globals/constants/style';
 
 export default class CurrentWebcam extends React.Component {
 	constructor() {
@@ -35,31 +36,44 @@ export default class CurrentWebcam extends React.Component {
 				nextimg: images.liveWebcam + Date.now(),
 			});
 		}
-		this.updateCurrent = !this.updateCurrent;
 	}
 
 	render() {
 		return (
-			<View>
+			<View style={styles.container}>
 				<FastImage
-					style={{width: 200, height: 200, position: 'absolute'}}
+					style={styles.camera}
 					source={{
 						uri: this.state.currentimg,
 						headers: {Authorization: 'authToken'},
 						priority: FastImage.priority.normal,
 					}}
 					resizeMode={FastImage.resizeMode.contain}
+					onLoad={e => (this.updateCurrent = !this.updateCurrent)}
 				/>
 				<FastImage
-					style={{width: 200, height: 200, position: 'absolute'}}
+					style={styles.camera}
 					source={{
 						uri: this.state.nextimg,
 						headers: {Authorization: 'authToken'},
 						priority: FastImage.priority.normal,
 					}}
 					resizeMode={FastImage.resizeMode.contain}
+					onLoad={e => (this.updateCurrent = !this.updateCurrent)}
 				/>
 			</View>
 		);
 	}
 }
+
+let styles = StyleSheet.create({
+	camera: {
+		height: sizes.camHeight,
+		width: sizes.camWidth,
+		position: 'absolute',
+	},
+	container: {
+		height: sizes.camHeight,
+		width: sizes.camWidth,
+	},
+});

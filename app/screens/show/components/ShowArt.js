@@ -4,29 +4,20 @@ import {View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 import myRadioGetRequest from '../../../requests/myRadioRequest';
-import {sizes} from '../../constants/style';
-import {web} from '../../constants/resources';
+import {sizes} from '../../../globals/constants/style';
+import {web} from '../../../globals/constants/resources';
 
-export default class CurrentShowArt extends React.Component {
-	constructor() {
-		super();
+export default class ShowArt extends React.Component {
+	constructor(props) {
+		super(props);
 		this.state = {
 			currentImg: require('../../../assets/imagedefaults/jukebox.png'),
 		};
-		this.updateImage = this.updateImage.bind(this);
+		this.showId = props.showId;
 	}
 
 	componentDidMount() {
-		this.updateImage();
-		updateInterval = setInterval(this.updateImage, 5000);
-	}
-
-	componentWillUnmount() {
-		clearInterval(updateInterval);
-	}
-
-	updateImage() {
-		myRadioGetRequest('timeslot/currenttimeslot')
+		myRadioGetRequest('timeslot/' + this.showId)
 			.then(response => {
 				this.setState({
 					currentImg: {
@@ -43,7 +34,7 @@ export default class CurrentShowArt extends React.Component {
 		return (
 			<View>
 				<FastImage
-					style={{width: sizes.tabBarIcon, height: sizes.tabBarIcon}}
+					style={{width: sizes.camHeight, height: sizes.camHeight}}
 					source={this.state.currentImg}
 					resizeMode={FastImage.resizeMode.contain}
 				/>

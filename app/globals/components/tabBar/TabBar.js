@@ -4,6 +4,7 @@ import {View, StyleSheet, Text} from 'react-native';
 import AudioPlayerButton from './AudioPlayerButton';
 import ShowAndSong from './ShowAndSong';
 import CurrentShowArt from './CurrentShowArt';
+import {colours, sizes} from '../../constants/style';
 
 export default class TabBar extends React.Component {
 	constructor() {
@@ -27,7 +28,7 @@ export default class TabBar extends React.Component {
 
 let styles = StyleSheet.create({
 	tabbar: {
-		backgroundColor: '#002a92',
+		backgroundColor: colours.uryblue,
 		alignItems: 'center',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
@@ -37,5 +38,5 @@ let styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 		alignItems: 'center',
 	},
-	showAndSong: {padding: 10},
+	showAndSong: {padding: sizes.textPadding},
 });

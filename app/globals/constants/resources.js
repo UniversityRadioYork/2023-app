@@ -1,6 +1,5 @@
-import {Dimensions} from 'react-native';
-
 export const web = {
+	myradioApi: 'https://ury.org.uk/api/v2/',
 	mainSite: 'https://ury.org.uk',
 };
 
@@ -13,5 +12,5 @@ export const images = {
 };
 
 export const names = {
-	offAirShow: 'Jukebox',
+	offAirShow: 'URY Jukebox',
 };

@@ -2,7 +2,7 @@ import * as React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 import myRadioGetRequest from '../../../requests/myRadioRequest';
-import {sizes, colours} from '../../constants/style';
+import {sizes, colours, fonts} from '../../constants/style';
 import {names} from '../../constants/resources';
 
 export default class ShowAndSong extends React.Component {
@@ -55,7 +55,6 @@ export default class ShowAndSong extends React.Component {
 			})
 			.catch(error => {});
 	}
-
 	render() {
 		return (
 			<View style={styles.sizeLimit}>
@@ -73,12 +72,13 @@ export default class ShowAndSong extends React.Component {
 let styles = StyleSheet.create({
 	currentShow: {
 		fontSize: sizes.text,
-		fontWeight: 'bold',
+		fontFamily: fonts.titleFont,
 		color: colours.white,
 		textAlign: 'left',
 	},
 	currentSong: {
 		fontSize: sizes.smalltext,
+		fontFamily: fonts.subTitleFont,
 		color: colours.white,
 		textAlign: 'left',
 	},
