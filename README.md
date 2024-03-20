@@ -32,4 +32,10 @@ npm run ios
 
 If everything is set up correctly the app should open in an emulator. You can also run it on your device by connecting it via usb and enabling developer options.
 
+If there are problems running your simulator try running react native doctor:
+
+```bash
+npx react-native doctor
+```
+
 NOTE: I do not own a mac so have been unable to test this project builds for IOS. In theory it should but theory will only take you so far.

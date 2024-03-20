@@ -7,56 +7,30 @@ import {useNavigation} from '@react-navigation/native';
 import myRadioGetRequest from '../../../requests/myRadioRequest';
 import {sizes, colours, fonts} from '../../../globals/constants/style';
 import {web} from '../../../globals/constants/resources';
+import parseDateInt from '../../../globals/utils/ParseDateInt';
 
-class CurrentAndNextClass extends React.Component {
-	constructor() {
-		super();
-		this.state = {
-			currentShow: '',
-			currentShowTime: '',
-			currentShowArt: require('../../../assets/imagedefaults/jukebox.png'),
-			currentShowId: false,
-			nextShow: '',
-			nextShowTime: '',
-			nextShowArt: require('../../../assets/imagedefaults/jukebox.png'),
-			nextShowId: false,
-		};
-		this.updateShows = this.updateShows.bind(this);
-	}
+function CurrentAndNextClass() {
+	const [state, setState] = React.useState({
+		currentShow: '',
+		currentShowTime: '',
+		currentShowArt: require('../../../assets/imagedefaults/jukebox.png'),
+		currentShowId: false,
+		nextShow: '',
+		nextShowTime: '',
+		nextShowArt: require('../../../assets/imagedefaults/jukebox.png'),
+		nextShowId: false,
+	});
+	const navigation = useNavigation();
 
-	componentDidMount() {
-		this.updateShows();
-		updateInterval = setInterval(this.updateShows, 5000);
-	}
-
-	componentWillUnmount() {
-		clearInterval(updateInterval);
-	}
-
-	parseDateInt(dateInt) {
-		if (dateInt) {
-			if (dateInt != 'The End of Time') {
-				let date = new Date(dateInt * 1000);
-				return String(
-					date.getHours() + ':' + ('0' + date.getMinutes()).slice(-2),
-				);
-			} else {
-				return dateInt;
-			}
-		} else {
-			return 'Now';
-		}
-	}
-
-	updateShows() {
+	const updateShows = () => {
 		myRadioGetRequest('timeslot/currentandnext')
 			.then(response => {
-				this.setState({
+				setState({
 					currentShow: response['payload']['current']['title'],
 					currentShowTime:
-						this.parseDateInt(response['payload']['current']['start_time']) +
+						parseDateInt(response['payload']['current']['start_time']) +
 						' - ' +
-						this.parseDateInt(response['payload']['current']['end_time']),
+						parseDateInt(response['payload']['current']['end_time']),
 					currentShowArt: {
 						uri: web.mainSite + response['payload']['current']['photo'],
 						headers: {Authorization: 'authToken'},
@@ -65,9 +39,9 @@ class CurrentAndNextClass extends React.Component {
 					currentShowId: response['payload']['current']['id'],
 					nextShow: response['payload']['next']['title'],
 					nextShowTime:
-						this.parseDateInt(response['payload']['next']['start_time']) +
+						parseDateInt(response['payload']['next']['start_time']) +
 						' - ' +
-						this.parseDateInt(response['payload']['next']['end_time']),
+						parseDateInt(response['payload']['next']['end_time']),
 					nextShowArt: {
 						uri: web.mainSite + response['payload']['next']['photo'],
 						headers: {Authorization: 'authToken'},
@@ -77,71 +51,77 @@ class CurrentAndNextClass extends React.Component {
 				});
 			})
 			.catch(error => {});
-	}
+	};
 
-	render() {
-		const {navigation} = this.props;
-		return (
-			<View>
-				<Pressable
-					onPress={() => {
-						if (this.state.currentShowId) {
-							navigation.navigate('Show', {showId: this.state.currentShowId});
-						}
-					}}>
-					<View style={styles.currentMainContainer}>
-						<View style={styles.titleAndTime}>
-							<Text
-								style={styles.currentShowName}
-								numberOfLines={2}
-								ellipsizeMode="tail">
-								{this.state.currentShow}
-							</Text>
-							<Text
-								style={styles.currentTimeInfo}
-								numberOfLines={2}
-								ellipsizeMode="tail">
-								{this.state.currentShowTime}
-							</Text>
-						</View>
-						<FastImage
-							style={{width: sizes.tabBarIcon, height: sizes.tabBarIcon}}
-							source={this.state.currentShowArt}
-							resizeMode={FastImage.resizeMode.contain}
-						/>
+	React.useEffect(() => {
+		updateShows();
+		const updateInterval = setInterval(updateShows, 5000);
+
+		return () => {
+			clearInterval(updateInterval);
+		};
+	}, []);
+
+	return (
+		<View>
+			<Pressable
+				onPress={() => {
+					if (state.currentShowId) {
+						navigation.navigate('Show', {showId: state.currentShowId});
+					}
+				}}>
+				<View style={styles.currentMainContainer}>
+					<View style={styles.titleAndTime}>
+						<Text
+							style={styles.currentShowName}
+							numberOfLines={2}
+							ellipsizeMode="tail">
+							{state.currentShow}
+						</Text>
+						<Text
+							style={styles.currentTimeInfo}
+							numberOfLines={2}
+							ellipsizeMode="tail">
+							{state.currentShowTime}
+						</Text>
 					</View>
-				</Pressable>
-				<Pressable
-					onPress={() => {
-						if (this.state.nextShowId) {
-							navigation.navigate('Show', {showId: this.state.nextShowId});
-						}
-					}}>
-					<View style={styles.nextMainContainer}>
-						<FastImage
-							style={{width: sizes.tabBarIcon, height: sizes.tabBarIcon}}
-							source={this.state.nextShowArt}
-							resizeMode={FastImage.resizeMode.contain}
-						/>
-						<View style={styles.titleAndTime}>
-							<Text
-								style={styles.nextShowName}
-								numberOfLines={2}
-								ellipsizeMode="tail">
-								{this.state.nextShow}
-							</Text>
-							<Text
-								style={styles.nextTimeInfo}
-								numberOfLines={2}
-								ellipsizeMode="tail">
-								{this.state.nextShowTime}
-							</Text>
-						</View>
+					<FastImage
+						style={{width: sizes.tabBarIcon, height: sizes.tabBarIcon}}
+						source={state.currentShowArt}
+						resizeMode={FastImage.resizeMode.contain}
+					/>
+				</View>
+			</Pressable>
+			<Pressable
+				onPress={() => {
+					if (state.nextShowId) {
+						navigation.navigate('Show', {showId: state.nextShowId});
+					}
+				}}>
+				<View style={styles.nextMainContainer}>
+					<FastImage
+						style={{width: sizes.tabBarIcon, height: sizes.tabBarIcon}}
+						source={state.nextShowArt}
+						resizeMode={FastImage.resizeMode.contain}
+					/>
+					<View style={styles.titleAndTime}>
+						<Text
+							style={styles.nextShowName}
+							numberOfLines={2}
+							ellipsizeMode="tail">
+							{state.nextShow}
+						</Text>
+						<Text
+							style={styles.nextTimeInfo}
+							numberOfLines={2}
+							ellipsizeMode="tail">
+							{state.nextShowTime}
+						</Text>
 					</View>
-				</Pressable>
-			</View>
-		);
-	}
+				</View>
+			</Pressable>
+		</View>
+	);
 }
 
 export default function CurrentAndNext() {

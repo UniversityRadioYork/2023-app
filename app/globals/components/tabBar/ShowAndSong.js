@@ -5,68 +5,54 @@ import myRadioGetRequest from '../../../requests/myRadioRequest';
 import {sizes, colours, fonts} from '../../constants/style';
 import {names} from '../../constants/resources';
 
-export default class ShowAndSong extends React.Component {
-	constructor() {
-		super();
-		this.state = {
-			currentShow: names.offAirShow,
-			currentSong: '',
-		};
-		this.updateText = this.updateText.bind(this);
-	}
+export default function ShowAndSong() {
+	const [currentShow, setCurrentShow] = React.useState(names.offAirShow);
+	const [currentSong, setCurrentSong] = React.useState('');
 
-	componentDidMount() {
-		this.updateText();
-		updateInterval = setInterval(this.updateText, 5000);
-	}
-
-	componentWillUnmount() {
-		clearInterval(updateInterval);
-	}
-
-	updateText() {
-		myRadioGetRequest('timeslot/currenttimeslot')
-			.then(response => {
-				if (response['payload']) {
-					this.setState({
-						currentShow: response['payload']['title'],
-					});
-				} else {
-					this.setState({
-						currentShow: names.offAirShow,
-					});
-				}
-			})
-			.catch(error => {});
-		myRadioGetRequest('track/nowplaying')
-			.then(response => {
-				if (response['payload']) {
-					this.setState({
-						currentSong:
+	React.useEffect(() => {
+		const updateText = () => {
+			myRadioGetRequest('timeslot/currenttimeslot')
+				.then(response => {
+					if (response['payload']) {
+						setCurrentShow(response['payload']['title']);
+					} else {
+						setCurrentShow(names.offAirShow);
+					}
+				})
+				.catch(error => {});
+			myRadioGetRequest('track/nowplaying')
+				.then(response => {
+					if (response['payload']) {
+						setCurrentSong(
 							response['payload']['track']['title'] +
-							' - ' +
-							response['payload']['track']['artist'],
-					});
-				} else {
-					this.setState({
-						currentSong: '',
-					});
-				}
-			})
-			.catch(error => {});
-	}
-	render() {
-		return (
-			<View style={styles.sizeLimit}>
-				<Text style={styles.currentShow} numberOfLines={1} ellipsizeMode="tail">
-					{this.state.currentShow}
-				</Text>
-				<Text style={styles.currentSong} numberOfLines={1} ellipsizeMode="tail">
-					{this.state.currentSong}
-				</Text>
-			</View>
-		);
-	}
+								' - ' +
+								response['payload']['track']['artist'],
+						);
+					} else {
+						setCurrentSong('');
+					}
+				})
+				.catch(error => {});
+		};
+
+		updateText();
+		const updateInterval = setInterval(updateText, 5000);
+
+		return () => {
+			clearInterval(updateInterval);
+		};
+	}, []);
+
+	return (
+		<View style={styles.sizeLimit}>
+			<Text style={styles.currentShow} numberOfLines={1} ellipsizeMode="tail">
+				{currentShow}
+			</Text>
+			<Text style={styles.currentSong} numberOfLines={1} ellipsizeMode="tail">
+				{currentSong}
+			</Text>
+		</View>
+	);
 }
 
 let styles = StyleSheet.create({

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {Component, useState, useRef, useEffect} from 'react';
 import {View} from 'react-native';
 
 import FastImage from 'react-native-fast-image';
@@ -7,47 +7,43 @@ import myRadioGetRequest from '../../../requests/myRadioRequest';
 import {sizes} from '../../constants/style';
 import {web} from '../../constants/resources';
 
-export default class CurrentShowArt extends React.Component {
-	constructor() {
-		super();
-		this.state = {
-			currentImg: require('../../../assets/imagedefaults/jukebox.png'),
-		};
-		this.updateImage = this.updateImage.bind(this);
-	}
+let updateInterval;
 
-	componentDidMount() {
-		this.updateImage();
-		updateInterval = setInterval(this.updateImage, 5000);
-	}
+const CurrentShowArt = () => {
+	const [currentImg, setCurrentImg] = useState(
+		require('../../../assets/imagedefaults/jukebox.png'),
+	);
 
-	componentWillUnmount() {
-		clearInterval(updateInterval);
-	}
-
-	updateImage() {
+	const updateImage = () => {
 		myRadioGetRequest('timeslot/currenttimeslot')
 			.then(response => {
-				this.setState({
-					currentImg: {
-						uri: web.mainSite + response['payload']['photo'],
-						headers: {Authorization: 'authToken'},
-						priority: FastImage.priority.normal,
-					},
+				setCurrentImg({
+					uri: web.mainSite + response['payload']['photo'],
+					headers: {Authorization: 'authToken'},
+					priority: FastImage.priority.normal,
 				});
 			})
 			.catch(error => {});
-	}
+	};
 
-	render() {
-		return (
-			<View>
-				<FastImage
-					style={{width: sizes.tabBarIcon, height: sizes.tabBarIcon}}
-					source={this.state.currentImg}
-					resizeMode={FastImage.resizeMode.contain}
-				/>
-			</View>
-		);
-	}
-}
+	useEffect(() => {
+		updateImage();
+		updateInterval = setInterval(updateImage, 5000);
+
+		return () => {
+			clearInterval(updateInterval);
+		};
+	}, []);
+
+	return (
+		<View>
+			<FastImage
+				style={{width: sizes.tabBarIcon, height: sizes.tabBarIcon}}
+				source={currentImg}
+				resizeMode={FastImage.resizeMode.contain}
+			/>
+		</View>
+	);
+};
+
+export default CurrentShowArt;
