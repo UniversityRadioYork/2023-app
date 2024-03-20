@@ -6,24 +6,18 @@ import ShowAndSong from './ShowAndSong';
 import CurrentShowArt from './CurrentShowArt';
 import {colours, sizes} from '../../constants/style';
 
-export default class TabBar extends React.Component {
-	constructor() {
-		super();
-	}
-
-	render() {
-		return (
-			<View style={styles.tabbar}>
-				<View style={styles.showinfo}>
-					<CurrentShowArt />
-					<View style={styles.showAndSong}>
-						<ShowAndSong />
-					</View>
+export default function TabBar() {
+	return (
+		<View style={styles.tabbar}>
+			<View style={styles.showinfo}>
+				<CurrentShowArt />
+				<View style={styles.showAndSong}>
+					<ShowAndSong />
 				</View>
-				<AudioPlayerButton />
 			</View>
-		);
-	}
+			<AudioPlayerButton />
+		</View>
+	);
 }
 
 let styles = StyleSheet.create({
